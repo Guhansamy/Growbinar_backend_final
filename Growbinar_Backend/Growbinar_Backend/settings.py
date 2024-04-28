@@ -32,6 +32,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -64,22 +65,51 @@ CORS_ORIGIN_WHITELIST = (
     'https://example.com',
 )
 
+Formatters={
+    "standard": {
+        "format": "{levelname} {asctime:s} {name} {module} {filename} {lineno:d} {funcName} {message}",
+        "style": "{",
+    },
+}
+
+Handlers = {
+    'DEBUG_handler':{
+        "formatter": "standard",
+        'level':'DEBUG',
+        'class': 'logging.handlers.RotatingFileHandler',
+        'filename': "./logs/dubug.log",
+        "backupCount": 5,
+        "maxBytes": 1024 * 1024 * 5,  
+    },
+    'WARN_handler':{
+        "formatter": "standard",
+        'level':'WARN',
+        'class': 'logging.handlers.RotatingFileHandler',
+        'filename': "./logs/warnings.log",
+        "backupCount": 5,
+        "maxBytes": 1024 * 1024 * 5,  
+    },
+    'ERR_handler':{
+        "formatter": "standard",
+        'level':'ERROR',
+        'class': 'logging.handlers.RotatingFileHandler',
+        'filename': "./logs/errors.log",
+        "backupCount": 5,
+        "maxBytes": 1024 * 1024 * 5,  
+    }
+}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'django.log',
-        },
-    },
+    'formatters':Formatters,
+    'handlers':Handlers,
     'loggers': {
         'django': {
-            'handlers': ['file'],
+            'handlers': ['DEBUG_handler','WARN_handler','ERR_handler'],
             'level': 'DEBUG',
             'propagate': True,
-        },
+        }
     },
 }
 
@@ -134,6 +164,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.ScryptPasswordHasher",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

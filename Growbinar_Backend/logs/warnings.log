@@ -1,0 +1,10 @@
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2121
+Not Found: /gg
+"GET /gg HTTP/1.1" 404 2094
+WARNING 2024-04-25 23:17:14,246 django.request log log.py 241 log_response Not Found: /gg
+WARNING 2024-04-25 23:17:14,246 django.server basehttp basehttp.py 212 log_message "GET /gg HTTP/1.1" 404 2094
+WARNING 2024-04-25 23:17:15,771 django.request log log.py 241 log_response Not Found: /gg
+WARNING 2024-04-25 23:17:15,772 django.server basehttp basehttp.py 212 log_message "GET /gg HTTP/1.1" 404 2094
+WARNING 2024-04-27 19:17:05,523 django.request log log.py 241 log_response Not Found: /favicon.ico
+WARNING 2024-04-27 19:17:05,523 django.server basehttp basehttp.py 212 log_message "GET /favicon.ico HTTP/1.1" 404 2121

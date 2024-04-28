@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
+from dotenv import load_dotenv
 import sys
 
+load_dotenv()
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Growbinar_Backend.settings')
+    from django.core.management.commands.runserver import Command as runserver
+    runserver.default_port = os.getenv('PORT') or '8000'
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
