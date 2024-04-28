@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 class Mentee(models.Model):
     id = models.AutoField(primary_key=True)
@@ -12,7 +13,7 @@ class Mentee(models.Model):
     date_of_birth = models.DateField()
     city = models.TextField()
     profile_picture_url = models.TextField()
-    areas_of_interest = models.ArrayField(models.TextField())
+    areas_of_interest = ArrayField(models.TextField())
     description = models.TextField()
     role = models.TextField()
     organization = models.TextField()
@@ -32,9 +33,9 @@ class Mentor(models.Model):
     city = models.TextField()
     bio = models.TextField()
     profile_picture_url = models.TextField()
-    areas_of_expertise = models.ArrayField(models.TextField())
+    areas_of_expertise = ArrayField(models.TextField())
     number_of_likes = models.IntegerField()
-    languages = models.ArrayField(models.TextField())
+    languages = ArrayField(models.TextField())
     experience = models.FloatField()
     designation = models.TextField()
     company = models.TextField()
