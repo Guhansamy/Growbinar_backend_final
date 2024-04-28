@@ -8,3 +8,27 @@ WARNING 2024-04-25 23:17:15,771 django.request log log.py 241 log_response Not F
 WARNING 2024-04-25 23:17:15,772 django.server basehttp basehttp.py 212 log_message "GET /gg HTTP/1.1" 404 2094
 WARNING 2024-04-27 19:17:05,523 django.request log log.py 241 log_response Not Found: /favicon.ico
 WARNING 2024-04-27 19:17:05,523 django.server basehttp basehttp.py 212 log_message "GET /favicon.ico HTTP/1.1" 404 2121
+WARNING 2024-04-28 20:36:25,243 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:25,244 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:25,315 django.request log log.py 241 log_response Not Found: /favicon.ico
+WARNING 2024-04-28 20:36:25,315 django.server basehttp basehttp.py 212 log_message "GET /favicon.ico HTTP/1.1" 404 2491
+WARNING 2024-04-28 20:36:30,380 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:30,381 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:31,435 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:31,436 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:32,279 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:32,279 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:32,518 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:32,519 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:42,564 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:42,565 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:43,185 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:43,186 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:43,365 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:43,367 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:43,566 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:43,568 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:43,781 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:43,782 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
+WARNING 2024-04-28 20:36:44,014 django.request log log.py 241 log_response Not Found: /
+WARNING 2024-04-28 20:36:44,016 django.server basehttp basehttp.py 212 log_message "GET / HTTP/1.1" 404 2440
