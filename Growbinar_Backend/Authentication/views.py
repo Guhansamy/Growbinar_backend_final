@@ -1,7 +1,6 @@
 from .models import Mentee,Mentor
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-# from .serializers import MenteeSerializer
 import json
 from django.contrib.auth.hashers import make_password
 
@@ -28,7 +27,6 @@ def MenteeSignup(request):
             is_experience=request.data['is_experience'],
             )
 
-        # instance.set_password(request.data['password'])
         instance.save()
 
         return Response(json.dumps({'message':'Mentee created sucessfully'}), status=201)
@@ -36,11 +34,10 @@ def MenteeSignup(request):
         print('error da ',e)
         return Response(json.dumps({'message':'Error creating Mentee'}), status=500)
 
-
 @api_view(['POST'])
 def MentorSignup(request):
     try:
-        print(request.data)
+        # print(request.data)
         instance = Mentor.objects.create(
             first_name=request.data['first_name'],
             last_name=request.data['last_name'],
@@ -62,7 +59,6 @@ def MentorSignup(request):
             is_top_rated=False,  
             is_experience=request.data['is_experience'], 
         )
-        # instance.set_password(request.data['password'])
         instance.save()
 
         return Response(json.dumps({'message':'Mentor created sucessfully'}), status=201)
