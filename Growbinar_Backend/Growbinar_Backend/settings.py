@@ -57,8 +57,8 @@ REST_FRAMEWORK = {
 # Django project settings.py
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),    # timne for access token to expire
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),      # time for refrewsh token to get expire
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=5),    # timne for access token to expire
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=20),      # time for refrewsh token to get expire
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
