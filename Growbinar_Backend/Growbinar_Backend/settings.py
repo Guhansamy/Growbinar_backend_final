@@ -18,7 +18,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'Authentication',
+    'static'
 ]
 
 REST_FRAMEWORK = {
@@ -106,7 +107,7 @@ CORS_ORIGIN_WHITELIST = (
 
 Formatters={
     "standard": {
-        "format": "{levelname} {asctime:s} {name} {module} {filename} {lineno:d} {funcName} {message}",
+        "format": "{levelname} {asctime:s} {name} {filename} {lineno:d} {funcName} message - {message}",
         "style": "{",
     },
 }
@@ -116,7 +117,7 @@ Handlers = {
         "formatter": "standard",
         'level':'DEBUG',
         'class': 'logging.FileHandler',
-        'filename': "./logs/debugs/dubug.log",
+        'filename': "./logs/debugs/debug.log",
         # "backupCount": 5,
         # "maxBytes": 1024 * 1024 * 5,  
     },
@@ -144,7 +145,7 @@ LOGGING = {
     'formatters':Formatters,
     'handlers':Handlers,
     'loggers': {
-        'django': {
+        'Authentication': {
             'handlers': ['DEBUG_handler','WARN_handler','ERR_handler'],
             'level': 'DEBUG',
             'propagate': True,
@@ -187,6 +188,15 @@ DATABASES = {
 }
 
 
+# Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'dharunpalanisamy5256@gmail.com'
+EMAIL_HOST_PASSWORD = 'gqruvarabwlkddgq'
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -207,10 +217,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
-    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
-    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
-    "django.contrib.auth.hashers.Argon2PasswordHasher",
-    "django.contrib.auth.hashers.ScryptPasswordHasher",
 ]
 
 # Internationalization
