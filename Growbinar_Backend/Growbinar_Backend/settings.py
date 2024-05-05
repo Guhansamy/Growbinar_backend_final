@@ -107,7 +107,7 @@ CORS_ORIGIN_WHITELIST = (
 
 Formatters={
     "standard": {
-        "format": "{levelname} {asctime:s} {name} {filename} {lineno:d} {funcName} message - {message}",
+        "format": "{levelname} {asctime:s} {name} {filename} {lineno:d} {message}",
         "style": "{",
     },
 }

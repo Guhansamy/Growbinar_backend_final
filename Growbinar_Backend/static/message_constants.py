@@ -1,35 +1,27 @@
 
-userNotFound = {
-    'message':'user not found with the id.',
-    'status':400
-}
+USER_NOT_FOUND = 'User not found with the id.'
 
-invalidCred = {
-    'message':'Invalid Credentials',
-    'status':400
-}
+INVALID_CREDENTIALS = 'Invalid Credentials'
 
-userCreated = {
-    'message':'user created sucessfully',
-    'status':200
-}
+USER_CREATED = 'User created sucessfully'
 
-emailExists = {
-    'message':'user with the email already exists',
-    'status':400
-}
+EMAIL_EXISTS = 'User with the email already exists'
 
-signupError = {
-    'message':'error creating user',
-    'status':500
-}
+SIGNUP_ERROR = 'Error creating user'
 
-verifiedUserEmail = {
-    'message':'Email verified Sucessfully',
-    'status':200
-}
+VERIFIED_USER_EMAIL = 'Email verified Sucessfully'
 
-errorVerifingUserEmail = {
-    'message':'Error verifying Email',
-    'status':500
+ERROR_VERIFYING_USER_EMAIL = 'Error verifying Email'
+
+EMAIL_NOT_VERIFIFED = 'Verify email before entering user details'
+
+USER_DETAILS_SAVED = 'User details saved successfully'
+
+ERROR_SAVING_USER_DETAILS = 'Error saving user Details'
+
+STATUSES  = {
+    'SUCCESS':200,
+    'BAD_REQUEST':400,
+    'NOT_FOUND':404,
+    'INTERNAL_SERVER_ERROR':500
 }
