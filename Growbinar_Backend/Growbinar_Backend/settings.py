@@ -149,6 +149,11 @@ LOGGING = {
             'handlers': ['DEBUG_handler','WARN_handler','ERR_handler'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        'profile_details': {
+            'handlers': ['DEBUG_handler','WARN_handler','ERR_handler'],
+            'level': 'DEBUG',
+            'propagate': True,
         }
     },
 }

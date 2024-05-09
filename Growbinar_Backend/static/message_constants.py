@@ -19,6 +19,8 @@ USER_DETAILS_SAVED = 'User details saved successfully'
 
 ERROR_SAVING_USER_DETAILS = 'Error saving user Details'
 
+ERROR_GETTING_MENTOR_DETAILS = 'Error getting mentor details'
+
 STATUSES  = {
     'SUCCESS':200,
     'BAD_REQUEST':400,

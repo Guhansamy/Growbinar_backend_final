@@ -8,9 +8,9 @@ class UserSerializer(serializers.Serializer):
 class MentorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
-        exclude = ['email_id','password']
+        exclude = ['email_id','password','is_top_rated','is_experience']
 
 class MenteeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentee
-        exclude = ['email_id','password','is_top_rated','is_experience']
+        exclude = ['email_id','password']

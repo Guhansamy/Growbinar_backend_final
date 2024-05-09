@@ -1,13 +1,12 @@
-from static.models import Mentee,Mentor
+from static.models import Mentee,Mentor,Experience
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .serializers import MentorSerializer,MenteeSerializer,UserSerializer
-from static.message_constants import STATUSES,INVALID_CREDENTIALS,USER_CREATED,EMAIL_EXISTS,SIGNUP_ERROR,VERIFIED_USER_EMAIL,ERROR_VERIFYING_USER_EMAIL,USER_DETAILS_SAVED,ERROR_SAVING_USER_DETAILS,EMAIL_NOT_VERIFIFED
-from static.routes import VerifyMenteeEmail,VerifyMentorEmail
+from static.message_constants import STATUSES,INVALID_CREDENTIALS,USER_CREATED,EMAIL_EXISTS,SIGNUP_ERROR,VERIFIED_USER_EMAIL,ERROR_VERIFYING_USER_EMAIL,USER_DETAILS_SAVED,ERROR_SAVING_USER_DETAILS,EMAIL_NOT_VERIFIFED,ERROR_GETTING_MENTOR_DETAILS
+from static.routes import VERIFY_MENTEE_ROUTE,VERIFY_MENTOR_ROUTE
 from django.contrib.auth.hashers import make_password,check_password
-from .emailVerification import sendVerificationMail
-from .LoggerMessage import log
+from .assets import sendVerificationMail,urlShortner,log
 
 
 @api_view(['POST'])
@@ -27,7 +26,7 @@ def MenteeSignup(request):
             # creating mentor object
             instance = Mentee.objects.create(email_id=request.data['email_id'],password=make_password(request.data['password']))
             instance.save()
-            sendVerificationMail(VerifyMenteeEmail+"?id="+urlsafe_base64_encode(str(instance.id).encode('utf-8')),request.data['email_id'])
+            sendVerificationMail(VERIFY_MENTEE_ROUTE+"?id="+urlsafe_base64_encode(str(instance.id).encode('utf-8')),request.data['email_id'])
             log("signup successfull",1)
             return Response({'message':USER_CREATED}, status=STATUSES['SUCCESS'])
         else:
@@ -57,7 +56,7 @@ def MentorSignup(request):
             instance = Mentor.objects.create(email_id=request.data['email_id'],password=make_password(request.data['password']))
             instance.save()
             log("signup successfull",1)
-            sendVerificationMail(VerifyMentorEmail+"?id="+urlsafe_base64_encode(str(instance.id).encode('utf-8')),request.data['email_id'])
+            sendVerificationMail(VERIFY_MENTOR_ROUTE+"?id="+urlsafe_base64_encode(str(instance.id).encode('utf-8')),request.data['email_id'])
             return Response({'message':USER_CREATED}, status=STATUSES['SUCCESS'])
         else:
             # sending bad request response
@@ -97,7 +96,6 @@ def VerifyMentor(request):
     except Exception as e:
         log("Error verifying email "+str(e),3)
         return Response({'message':ERROR_VERIFYING_USER_EMAIL},status=STATUSES['INTERNAL_SERVER_ERROR'])
-
 
 @api_view(['POST'])
 def getMentorDetails(request):
@@ -155,6 +153,7 @@ def getMenteeDetails(request):
             mentee.last_name=request.data['last_name']
             mentee.country=request.data['country']
             mentee.phone_number=request.data['phone_number']
+            mentee.languages=request.data['languages']
             mentee.gender=request.data['gender']
             mentee.date_of_birth=request.data['date_of_birth']
             mentee.city=request.data['city']
@@ -174,3 +173,18 @@ def getMenteeDetails(request):
     except Exception as e:
         log("Error saving mentor details - "+str(e),3)
         return Response({'message':ERROR_SAVING_USER_DETAILS},status=STATUSES['INTERNAL_SERVER_ERROR'])
+
+
+
+
+
+
+
+
+
+
+
+
+    # cur = connection.cursor()
+    # cur.execute("INSERT INTO static_mentor (email_id,password) values(\'dharun.ap2022cse@sece.ac.in\',\'ehllo\');")
+    # Mentor.objects.raw("INSERT INTO static_mentors (email,password) values(dharun.ap2022cse@sece.ac.in,ehllo);")
