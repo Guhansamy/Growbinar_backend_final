@@ -15,3 +15,4 @@ CREATE_AVAILABLE_SESSIONS = 'availableSessions/'
 # '/mentors/234'  get method -> return details of the mentor 234
 # '/mentors/' get method return -> all mentors
 # '/listMentors/' {'id':23} get fetch all the menors who mentored mentee 23 
+userLogin = 'login/'

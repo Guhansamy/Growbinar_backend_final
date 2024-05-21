@@ -1,10 +1,7 @@
 from django.urls import path
 from .views import *                                    # importing views to be called for each route
 from static import routes             # importing url routes from the static files in the project dir
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+
 
 urlpatterns = [
     path('authtoken/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -1,13 +1,16 @@
 from static.models import Mentee,Mentor,Experience
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from static.message_constants import LOGIN_SUCCESS,INVALID_ROLE,LOGIN_ERROR,INVALID_CREDENTIALS,STATUSES,USER_NOT_FOUND
+from rest_framework_simplejwt.tokens import AccessToken
+from django.http import JsonResponse
+
 from .serializers import MentorSerializer,MenteeSerializer,UserSerializer
-from static.message_constants import STATUSES,INVALID_CREDENTIALS,USER_CREATED,EMAIL_EXISTS,SIGNUP_ERROR,VERIFIED_USER_EMAIL,ERROR_VERIFYING_USER_EMAIL,USER_DETAILS_SAVED,ERROR_SAVING_USER_DETAILS,EMAIL_NOT_VERIFIFED,ERROR_GETTING_MENTOR_DETAILS
-from static.routes import VERIFY_MENTEE_ROUTE,VERIFY_MENTOR_ROUTE
+from static.message_constants import STATUSES,INVALID_CREDENTIALS,USER_CREATED,EMAIL_EXISTS,SIGNUP_ERROR,VERIFIED_USER_EMAIL,ERROR_VERIFYING_USER_EMAIL,USER_DETAILS_SAVED,ERROR_SAVING_USER_DETAILS,EMAIL_NOT_VERIFIFED
+from static.routes import VerifyMenteeEmail,VerifyMentorEmail
 from django.contrib.auth.hashers import make_password,check_password
-from .assets import sendVerificationMail,urlShortner,log
-from static.cipher import encryptData,decryptData
-from django.shortcuts import render
+from .assets import sendVerificationMail,log
+
 
 @api_view(['POST'])
 def MenteeSignup(request):
@@ -40,6 +43,34 @@ def MenteeSignup(request):
         log("Error creating a mentee"+str(e),3)
         return Response({'message':SIGNUP_ERROR}, status=STATUSES['INTERNAL_SERVER_ERROR'])
 
+
+@api_view(['POST'])
+def user_login(request):
+    print("Request has Entered into User Login Page")
+    log("Entered User-Login ",1)
+
+    try:
+        print(request.data)
+        # validating the payload
+        valid=serializer.is_valid()
+        if valid:
+            # creating mentor object
+            instance = Mentee.objects.create(email_id=request.data['email_id'],password=make_password(request.data['password']))
+            instance.save()
+            sendVerificationMail(VerifyMenteeEmail+"?id="+urlsafe_base64_encode(str(instance.id).encode('utf-8')),request.data['email_id'])
+            log("signup successfull",1)
+            return Response({'message':USER_CREATED}, status=STATUSES['SUCCESS'])
+        else:
+            # sending bad request response for invalid payload
+            log("invalid credentails for signup "+str(serializer.errors),2)
+            print(serializer.errors)
+            return Response({"message":INVALID_CREDENTIALS},status=STATUSES['BAD_REQUEST'])
+    except Exception as e:
+        log("Error creating a mentee"+str(e),3)
+        return Response({'message':SIGNUP_ERROR}, status=STATUSES['INTERNAL_SERVER_ERROR'])
+
+
+
 @api_view(['POST'])
 def MentorSignup(request):
     log("Entered mentor-signup",1)
@@ -58,9 +89,8 @@ def MentorSignup(request):
             instance = Mentor.objects.create(email_id=request.data['email_id'],password=make_password(request.data['password']))
             instance.save()
             log("signup successfull",1)
-            encryptedID = encryptData(instance.id)      # encrypting the id to send as the response
-            sendVerificationMail(VERIFY_MENTOR_ROUTE+"?id="+encryptedID,request.data['email_id'])
-            return Response({'message':USER_CREATED,"id":encryptedID}, status=STATUSES['SUCCESS'])
+            sendVerificationMail(VerifyMentorEmail+"?id="+urlsafe_base64_encode(str(instance.id).encode('utf-8')),request.data['email_id'])
+            return Response({'message':USER_CREATED}, status=STATUSES['SUCCESS'])
         else:
             # sending bad request response
             log("invalid credentails for signup",2)
@@ -172,13 +202,7 @@ def getMenteeDetails(request):
             mentee.save()
             log("success",1)
             return Response({'message':USER_DETAILS_SAVED},status=STATUSES['SUCCESS'])
-        else:
-            log('invalid details '+str(serializer.errors),2)
-            return Response({'message':INVALID_CREDENTIALS},status=STATUSES['BAD_REQUEST'])
-    except Exception as e:
-        log("Error saving mentor details - "+str(e),3)
-        return Response({'message':ERROR_SAVING_USER_DETAILS},status=STATUSES['INTERNAL_SERVER_ERROR'])
-
+            
 
 
 
@@ -189,6 +213,47 @@ def verifyMailSampleTemplate(request):
 
 
 
+
+# log("Invalid user_role",3)
+#             return JsonResponse({'message' : INVALID_ROLE},status = STATUSES['BAD_REQUEST'])
+            
+
+       
+
+#         print(user)
+
+#         if not user:
+#                     # Request entered were user not exist
+#             if user_role == 'mentor':
+#                 log("User Not Found",2)
+#                 return JsonResponse({'message' : USER_NOT_FOUND }, status = STATUSES['BAD_REQUEST'])
+            
+#             else :
+#                 log("User Not Found",2)
+#                 return JsonResponse({'message' :USER_NOT_FOUND},status = STATUSES['BAD_REQUEST'])
+            
+#         if check_password(password, user.password):
+#         # if (password == user.password):
+#             token = AccessToken.for_user(user)
+#             log("User Logged In",1)
+#             return JsonResponse({
+#                 'message': LOGIN_SUCCESS,  # Using 'message' key
+#                 'token': str(token),
+#                 'data' : {
+#                     'name' : user.first_name + user.last_name,
+#                     'email' : email,
+#                     'role' : user_role
+#                 }
+#             }, status= STATUSES['SUCCESS'])
+        
+#         else:
+#             log("Invalid Credentials",3)
+#             return JsonResponse({'message' : INVALID_CREDENTIALS}, status = STATUSES['BAD_REQUEST'])
+            
+#     except Exception as ex:
+#         print(ex)
+#         log('Error while Login  ' + str(ex),3)
+#         return JsonResponse({'message' : LOGIN_ERROR}, status = STATUSES['INTERNAL_SERVER_ERROR'])
 
 
 
