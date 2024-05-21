@@ -10,6 +10,8 @@ from static.message_constants import STATUSES,INVALID_CREDENTIALS,USER_CREATED,E
 from static.routes import VERIFY_MENTOR_ROUTE,VERIFY_MENTEE_ROUTE
 from django.contrib.auth.hashers import make_password,check_password
 from .assets import sendVerificationMail,log
+from .jwtVerification import get_or_create_jwt
+
 
 @api_view(['POST'])
 def user_login(request):
@@ -46,8 +48,8 @@ def user_login(request):
                 log("User Not Found",2)
                 return JsonResponse({'message' :USER_NOT_FOUND},status = STATUSES['BAD_REQUEST'])
             
-        # if check_password(password, user.password):
-        if (password == user.password):
+        if check_password(password, user.password):
+        # if (password == user.password):
             token = str(get_or_create_jwt(user,user_role,email))
             print(token, " tata printed ")
             log("User Logged In",1)

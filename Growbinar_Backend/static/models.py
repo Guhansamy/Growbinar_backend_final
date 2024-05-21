@@ -51,6 +51,12 @@ class Mentor(models.Model):
     def __str__(self):
         return str(str(self.id)+" "+self.email_id)
 
+class AuthToken(models.Model) :
+    user_type = models.CharField(max_length=100)
+    referenceId = models.IntegerField()
+    jwt_token = models.CharField(primary_key=True,max_length=500)
+    created_date = models.DateField(auto_now_add=True)
+
 class Experience(models.Model):
     id = models.AutoField(primary_key=True)
     from_duration = models.DateTimeField()

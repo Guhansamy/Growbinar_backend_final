@@ -46,3 +46,17 @@ DEBUG 2024-05-21 22:01:21,950 profile_details assets.py 15 listAllMentors messag
 DEBUG 2024-05-21 22:01:22,732 profile_details assets.py 15 listAllMentors message - Mentors listed successfully
 DEBUG 2024-05-21 22:03:42,927 profile_details assets.py 15 menteeDetails message - Entered mentee details
 DEBUG 2024-05-21 22:03:43,003 profile_details assets.py 15 menteeDetails message - Mentee details provided sucessfully
+DEBUG 2024-05-21 22:11:56,972 Authentication assets.py 29 user_login message - Entered User-Login 
+ERROR 2024-05-21 22:11:56,983 Authentication assets.py 33 user_login message - Error while Login  JSON parse error - Expecting ':' delimiter: line 4 column 17 (char 100)
+DEBUG 2024-05-21 22:12:27,578 Authentication assets.py 29 user_login message - Entered User-Login 
+DEBUG 2024-05-21 22:12:27,677 Authentication assets.py 29 user_login message - User is Mentor
+ERROR 2024-05-21 22:12:27,689 Authentication assets.py 33 user_login message - Invalid Credentials
+DEBUG 2024-05-21 22:13:24,796 Authentication assets.py 29 user_login message - Entered User-Login 
+DEBUG 2024-05-21 22:13:24,880 Authentication assets.py 29 user_login message - User is Mentor
+ERROR 2024-05-21 22:13:25,250 Authentication assets.py 33 user_login message - Error while Login  name 'get_or_create_jwt' is not defined
+DEBUG 2024-05-21 22:19:58,577 Authentication assets.py 29 user_login message - Entered User-Login 
+DEBUG 2024-05-21 22:19:58,677 Authentication assets.py 29 user_login message - User is Mentor
+DEBUG 2024-05-21 22:19:59,596 Authentication assets.py 29 user_login message - User Logged In
+DEBUG 2024-05-21 22:22:50,108 Authentication assets.py 29 user_login message - Entered User-Login 
+DEBUG 2024-05-21 22:22:50,181 Authentication assets.py 29 user_login message - User is Mentor
+DEBUG 2024-05-21 22:22:50,541 Authentication assets.py 29 user_login message - User Logged In

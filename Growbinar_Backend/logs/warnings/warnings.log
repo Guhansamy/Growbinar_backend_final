@@ -8,3 +8,6 @@ WARNING 2024-05-21 21:56:13,345 Authentication assets.py 30 MentorSignup message
 ERROR 2024-05-21 21:56:28,156 Authentication assets.py 32 MentorSignup message - Error creating a mentorCould not parse the remainder: ' + verifyMail' from 'BASE_URL + verifyMail'
 WARNING 2024-05-21 21:58:12,368 Authentication assets.py 30 MentorSignup message - Email already exists
 WARNING 2024-05-21 22:00:57,841 Authentication assets.py 31 getMenteeDetails message - Email not verified
+ERROR 2024-05-21 22:11:56,983 Authentication assets.py 33 user_login message - Error while Login  JSON parse error - Expecting ':' delimiter: line 4 column 17 (char 100)
+ERROR 2024-05-21 22:12:27,689 Authentication assets.py 33 user_login message - Invalid Credentials
+ERROR 2024-05-21 22:13:25,250 Authentication assets.py 33 user_login message - Error while Login  name 'get_or_create_jwt' is not defined
