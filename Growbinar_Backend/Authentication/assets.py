@@ -9,12 +9,12 @@ def urlShortner(url):
     return short_url
 
 def sendVerificationMail(url, email_id):
-    x = get_template('template/index.html').render({'BASE_URL':'http://localhost:5000/images/','verify-mail':url})
-    print(x)
+    print(url)
+    template = get_template('template/index.html').render({'BASE_URL':'http://localhost:5000/','verifyMail':url})
     send_mail(
         subject="Verify your mail by clicking the below link",  # subject in the sending mail
         from_email="admin@growbinar.com",                       # sender mail
-        html_message= x,
+        html_message= template,                                 # html template
         message='http://localhost:5000/'+url,                   # message in the mail
         recipient_list=[email_id,]                              # recipient mail id
     )

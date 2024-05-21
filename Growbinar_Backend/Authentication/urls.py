@@ -4,8 +4,6 @@ from static import routes             # importing url routes from the static fil
 
 
 urlpatterns = [
-    path('authtoken/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('authtoken/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path(routes.MENTEE_SIGNUP_ROUTE, MenteeSignup,name='mentee-signup'),
     path(routes.MENTOR_SIGNUP_ROUTE, MentorSignup,name='mentor-signup'),
     path(routes.VERIFY_MENTEE_ROUTE, VerifyMentee,name='verify-mentee-email'),
