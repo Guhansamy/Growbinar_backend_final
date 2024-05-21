@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import ArrayField, JSONField
 from django.contrib.auth.hashers import make_password
 
 class Mentee(models.Model):
@@ -10,19 +10,20 @@ class Mentee(models.Model):
     email_id = models.EmailField(unique=True)
     is_email_verified = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=15,null=True,blank=True)
+    languages = ArrayField(models.CharField(max_length=100),null=True,blank=True)
     password = models.CharField(max_length=100)
     gender = models.CharField(max_length=10,null=True,blank=True)
     date_of_birth = models.DateField(null=True,blank=True)
     city = models.CharField(max_length=100,null=True,blank=True)
-    profile_picture_url = models.CharField(max_length=200,null=True,blank=True)
+    profile_picture_url = models.CharField(null=True,blank=True)
     areas_of_interest = ArrayField(models.CharField(max_length=100),null=True,blank=True)
     description = models.TextField(null=True,blank=True)
     role = models.CharField(max_length=100,null=True,blank=True)
     organization = models.CharField(max_length=100,null=True,blank=True)
     is_experience = models.BooleanField(default=False)
     created_at = models.DateTimeField(null=False, auto_now_add=True)
-    # def __str__(self):
-    #     return str(self.first_name+" "+self.last_name)
+    def __str__(self):
+        return str(str(self.id)+" "+self.email_id)
 
 class Mentor(models.Model):
     id = models.AutoField(primary_key=True)
@@ -37,19 +38,24 @@ class Mentor(models.Model):
     date_of_birth = models.DateField(null=True,blank=True)
     city = models.CharField(max_length=100,null=True,blank=True)
     bio = models.TextField(null=True,blank=True)
-    profile_picture_url = models.CharField(max_length=150,null=True,blank=True)
+    profile_picture_url = models.CharField(null=True,blank=True)
     areas_of_expertise = ArrayField(models.CharField(max_length=100),null=True,blank=True)
     number_of_likes = models.IntegerField(null=True,blank=True)
     languages = ArrayField(models.CharField(max_length=100),null=True,blank=True)
-    MentorExperience = models.FloatField(null=True,blank=True)
+    mentor_experience = models.FloatField(null=True,blank=True)
     designation = models.CharField(max_length=100,null=True,blank=True)
     company = models.CharField(max_length=100,null=True,blank=True)
     is_top_rated = models.BooleanField(default=False) #remove
     is_experience = models.BooleanField(default=False) #remove
     created_at = models.DateTimeField(null=False, auto_now_add=True)
-    # def __str__(self):
-    #     return str(self.first_name+" "+self.last_name)
-    
+    def __str__(self):
+        return str(str(self.id)+" "+self.email_id)
+
+class AuthToken(models.Model) :
+    user_type = models.CharField(max_length=100)
+    referenceId = models.IntegerField()
+    jwt_token = models.CharField(primary_key=True,max_length=500)
+    created_date = models.DateField(auto_now_add=True)
 
 class Experience(models.Model):
     id = models.AutoField(primary_key=True)
@@ -64,12 +70,17 @@ class Experience(models.Model):
     mentorRef = models.ForeignKey(Mentor, on_delete=models.CASCADE, null=True, blank=True)
     menteeRef = models.ForeignKey(Mentee, on_delete=models.CASCADE, null=True, blank=True)
 
+class AvailabeSession(models.Model):
+    mentor = models.OneToOneField(Mentor, on_delete=models.CASCADE)
+    availableSlots = ArrayField(models.JSONField(),null=True,blank=True)
+
 class Session(models.Model):
     id = models.AutoField(primary_key=True)
     mentor = models.ForeignKey(Mentor, on_delete=models.CASCADE)
     slot_date = models.DateField()
     from_slot_time = models.TimeField()
     to_slot_time = models.TimeField()
+    count_of_sessions = models.IntegerField(default=0)
     is_booked = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

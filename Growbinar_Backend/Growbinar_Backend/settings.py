@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'Authentication',
-    'static'
+    'static',
+    'Sessions'
 ]
 
 REST_FRAMEWORK = {
@@ -149,6 +150,16 @@ LOGGING = {
             'handlers': ['DEBUG_handler','WARN_handler','ERR_handler'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        'profile_details': {
+            'handlers': ['DEBUG_handler','WARN_handler','ERR_handler'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'Sessions': {
+            'handlers': ['DEBUG_handler','WARN_handler','ERR_handler'],
+            'level': 'DEBUG',
+            'propagate': True,
         }
     },
 }
@@ -159,7 +170,7 @@ ROOT_URLCONF = 'Growbinar_Backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['Authentication'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -185,22 +196,32 @@ DATABASES = {
         'USER':'Django',
         'PASSWORD':'django',
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME':'Growbinar_main',
-    #     'USER':'DjangoDB',
-    #     'PASSWORD':'root',
-    # }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'verceldb',
+#         'USER': 'default',
+#         'PASSWORD': 'pJihmtHYq91v',
+#         'HOST': 'ep-summer-poetry-a46p88qe-pooler.us-east-1.aws.neon.tech',
+#         'PORT': '5432',  # Default PostgreSQL port is 5432
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#             'connect_timeout': 15,
+#         }
+#     }
+# }
+
+
 # Email Settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'dharunpalanisamy5256@gmail.com'
-EMAIL_HOST_PASSWORD = 'gqruvarabwlkddgq'
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'dharunpalanisamy5256@gmail.com'
+# EMAIL_HOST_PASSWORD = 'gqruvarabwlkddgq'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -239,8 +260,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-
+STATIC_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, '/media/')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "media/"),
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
