@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import ArrayField, JSONField
 from django.contrib.auth.hashers import make_password
 
 class Mentee(models.Model):
@@ -50,7 +50,6 @@ class Mentor(models.Model):
     created_at = models.DateTimeField(null=False, auto_now_add=True)
     def __str__(self):
         return str(str(self.id)+" "+self.email_id)
-    
 
 class Experience(models.Model):
     id = models.AutoField(primary_key=True)
@@ -64,6 +63,10 @@ class Experience(models.Model):
     referenced_id = models.IntegerField()
     mentorRef = models.ForeignKey(Mentor, on_delete=models.CASCADE, null=True, blank=True)
     menteeRef = models.ForeignKey(Mentee, on_delete=models.CASCADE, null=True, blank=True)
+
+class AvailabeSession(models.Model):
+    mentor = models.OneToOneField(Mentor, on_delete=models.CASCADE)
+    availableSlots = ArrayField(models.JSONField(),null=True,blank=True)
 
 class Session(models.Model):
     id = models.AutoField(primary_key=True)

@@ -2,15 +2,19 @@ from django.core.mail import send_mail
 import pyshorteners
 import logging
 import inspect
+from django.template.loader import render_to_string,get_template
 
 def urlShortner(url):
     short_url = pyshorteners.Shortener().tinyurl.short(url) # using tinyURL service to shorten the url from the pyShortner
     return short_url
 
 def sendVerificationMail(url, email_id):
+    x = get_template('template/index.html').render({'BASE_URL':'http://localhost:5000/images/','verify-mail':url})
+    print(x)
     send_mail(
         subject="Verify your mail by clicking the below link",  # subject in the sending mail
         from_email="admin@growbinar.com",                       # sender mail
+        html_message= x,
         message='http://localhost:5000/'+url,                   # message in the mail
         recipient_list=[email_id,]                              # recipient mail id
     )
@@ -27,3 +31,7 @@ def log(message,code):
         logger.warn(message)
     elif code==3:
         logger.error(message)
+
+
+
+# renge wise check

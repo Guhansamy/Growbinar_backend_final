@@ -19,7 +19,21 @@ USER_DETAILS_SAVED = 'User details saved successfully'
 
 ERROR_SAVING_USER_DETAILS = 'Error saving user Details'
 
+ERROR_SENDING_DETAILS = "Error sending details"
+
 ERROR_GETTING_MENTOR_DETAILS = 'Error getting mentor details'
+
+SUCESS = "Details sent sucessfully"
+
+NO_DATA_AVAILABLE = "No data availabe in the table "
+
+SESSION_EXISTS = "AvalableSessions already exists"
+
+FEEDBACK_CREATED = 'Feedback created sucessfully'
+
+ERROR_CREATING_FEEDBACK = 'Error creating feedback'
+
+SESSION_NOT_COMPLETED = 'Session is not yet completed'
 
 STATUSES  = {
     'SUCCESS':200,

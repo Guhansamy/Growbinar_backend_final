@@ -1,13 +1,13 @@
 from static.models import Mentee,Mentor,Experience
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .serializers import MentorSerializer,MenteeSerializer,UserSerializer
 from static.message_constants import STATUSES,INVALID_CREDENTIALS,USER_CREATED,EMAIL_EXISTS,SIGNUP_ERROR,VERIFIED_USER_EMAIL,ERROR_VERIFYING_USER_EMAIL,USER_DETAILS_SAVED,ERROR_SAVING_USER_DETAILS,EMAIL_NOT_VERIFIFED,ERROR_GETTING_MENTOR_DETAILS
 from static.routes import VERIFY_MENTEE_ROUTE,VERIFY_MENTOR_ROUTE
 from django.contrib.auth.hashers import make_password,check_password
 from .assets import sendVerificationMail,urlShortner,log
-
+from static.cipher import encryptData,decryptData
+from django.shortcuts import render
 
 @api_view(['POST'])
 def MenteeSignup(request):
@@ -26,9 +26,11 @@ def MenteeSignup(request):
             # creating mentor object
             instance = Mentee.objects.create(email_id=request.data['email_id'],password=make_password(request.data['password']))
             instance.save()
-            sendVerificationMail(VERIFY_MENTEE_ROUTE+"?id="+urlsafe_base64_encode(str(instance.id).encode('utf-8')),request.data['email_id'])
+            encryptedID = encryptData(instance.id)       # encrypting the id to send as the response
+            sendVerificationMail(VERIFY_MENTEE_ROUTE+"?id="+encryptedID,request.data['email_id'])
+            # log("signup successfull",1)
             log("signup successfull",1)
-            return Response({'message':USER_CREATED}, status=STATUSES['SUCCESS'])
+            return Response({'message':USER_CREATED,"id":encryptedID}, status=STATUSES['SUCCESS'])
         else:
             # sending bad request response for invalid payload
             log("invalid credentails for signup "+str(serializer.errors),2)
@@ -56,8 +58,9 @@ def MentorSignup(request):
             instance = Mentor.objects.create(email_id=request.data['email_id'],password=make_password(request.data['password']))
             instance.save()
             log("signup successfull",1)
-            sendVerificationMail(VERIFY_MENTOR_ROUTE+"?id="+urlsafe_base64_encode(str(instance.id).encode('utf-8')),request.data['email_id'])
-            return Response({'message':USER_CREATED}, status=STATUSES['SUCCESS'])
+            encryptedID = encryptData(instance.id)      # encrypting the id to send as the response
+            sendVerificationMail(VERIFY_MENTOR_ROUTE+"?id="+encryptedID,request.data['email_id'])
+            return Response({'message':USER_CREATED,"id":encryptedID}, status=STATUSES['SUCCESS'])
         else:
             # sending bad request response
             log("invalid credentails for signup",2)
@@ -72,7 +75,8 @@ def VerifyMentee(request):
     log('Entered email verification of mentee',1)
     try:
         # Getting mentee id from the url and setting is_email_verified to True
-        menteeID = urlsafe_base64_decode(request.GET.get('id')).decode('utf-8')
+        menteeID = decryptData(request.GET.get('id'))
+        print(menteeID)
         mentee = Mentee.objects.get(id=menteeID)
         mentee.is_email_verified = True
         mentee.save()
@@ -87,7 +91,7 @@ def VerifyMentor(request):
     log('Entered email verification mentor',1)
     try:
         # Getting mentor id from the url and setting is_email_verified to True
-        mentorID = urlsafe_base64_decode(request.GET.get('id')).decode('utf-8')
+        mentorID = decryptData(request.GET.get('id'))
         mentor = Mentor.objects.get(id=mentorID)
         mentor.is_email_verified = True
         mentor.save()
@@ -101,7 +105,9 @@ def VerifyMentor(request):
 def getMentorDetails(request):
     log('Entered mentor details endpoint',1)
     try:
-        mentor = Mentor.objects.get(id=request.data['id'])
+        print(decryptData(request.data['id']))
+        mentor = Mentor.objects.get(id=decryptData(request.data['id']))
+        print(mentor)
         if not mentor.is_email_verified:
             log("Email not verified",2)
             return Response({'message':EMAIL_NOT_VERIFIFED},status=STATUSES['BAD_REQUEST'])
@@ -141,14 +147,13 @@ def getMentorDetails(request):
 def getMenteeDetails(request):
     log('Entered mentor details endpoint',1)
     try:
-        mentee = Mentee.objects.get(id=request.data['id'])
+        mentee = Mentee.objects.get(id=decryptData(request.data['id']))
         if not mentee.is_email_verified:
             log("Email not verified",2)
             return Response({'message':EMAIL_NOT_VERIFIFED},status=STATUSES['BAD_REQUEST'])
         serializer = MenteeSerializer(data=request.data)
         valid = serializer.is_valid()
         if(valid):
-            mentee = Mentee.objects.get(id=request.data['id'])
             mentee.first_name=request.data['first_name']
             mentee.last_name=request.data['last_name']
             mentee.country=request.data['country']
@@ -177,6 +182,8 @@ def getMenteeDetails(request):
 
 
 
+def verifyMailSampleTemplate(request):
+    return render(request, 'template/index.html',{'BASE_URL':'http://localhost:5000/'})
 
 
 

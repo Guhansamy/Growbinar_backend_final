@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'Authentication',
-    'static'
+    'static',
+    'Sessions'
 ]
 
 REST_FRAMEWORK = {
@@ -154,6 +155,11 @@ LOGGING = {
             'handlers': ['DEBUG_handler','WARN_handler','ERR_handler'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        'Sessions': {
+            'handlers': ['DEBUG_handler','WARN_handler','ERR_handler'],
+            'level': 'DEBUG',
+            'propagate': True,
         }
     },
 }
@@ -164,7 +170,7 @@ ROOT_URLCONF = 'Growbinar_Backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['Authentication'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -186,11 +192,26 @@ WSGI_APPLICATION = 'Growbinar_Backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'GrobinarDB',
+        'NAME':'GrowbinarDB',
         'USER':'Django',
         'PASSWORD':'django',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'verceldb',
+#         'USER': 'default',
+#         'PASSWORD': 'pJihmtHYq91v',
+#         'HOST': 'ep-summer-poetry-a46p88qe-pooler.us-east-1.aws.neon.tech',
+#         'PORT': '5432',  # Default PostgreSQL port is 5432
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#             'connect_timeout': 15,
+#         }
+#     }
+# }
 
 
 # Email Settings
@@ -239,8 +260,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-
+STATIC_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, '/media/')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "media/"),
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
