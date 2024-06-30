@@ -1,9 +1,6 @@
-DEBUG 2024-06-27 21:55:54,540 Sessions assets.py 10 upcoming_sessions_mentee message - Entered upcoming session
-DEBUG 2024-06-27 21:56:06,570 Authentication assets.py 48 user_login message - Entered User-Login 
-DEBUG 2024-06-27 21:56:09,294 Authentication assets.py 48 user_login message - User is Mentee
-DEBUG 2024-06-27 21:56:11,649 Authentication assets.py 48 user_login message - User Logged In
-DEBUG 2024-06-27 21:56:26,545 Sessions assets.py 10 upcoming_sessions_mentee message - Entered upcoming session
-DEBUG 2024-06-27 21:56:31,614 Sessions assets.py 10 upcoming_sessions_mentee message - Mentee Exists
-DEBUG 2024-06-27 21:56:31,929 Sessions assets.py 10 upcoming_sessions_mentee message - Upcoming session displayed
-DEBUG 2024-06-27 21:56:50,524 Authentication assets.py 48 getMenteeDetails message - Entered mentor details endpoint
-DEBUG 2024-06-27 21:56:55,679 Authentication assets.py 48 getMenteeDetails message - success
+DEBUG 2024-06-30 23:30:51,289 Sessions assets.py 10 new_sessions_booking message - No already session available 
+DEBUG 2024-06-30 23:30:51,947 Sessions assets.py 10 new_sessions_booking message - New session created
+DEBUG 2024-06-30 23:30:52,899 Sessions assets.py 10 new_sessions_booking message - Requestedsession created successfully
+DEBUG 2024-06-30 23:31:08,104 Sessions assets.py 10 new_sessions_booking message - No already session available 
+DEBUG 2024-06-30 23:31:08,774 Sessions assets.py 10 new_sessions_booking message - New session created
+DEBUG 2024-06-30 23:31:09,779 Sessions assets.py 10 new_sessions_booking message - Requestedsession created successfully
