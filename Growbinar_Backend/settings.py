@@ -89,6 +89,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'ratelimit.middleware.RatelimitMiddleware',
 ]
 
 # CORS Configuration
@@ -186,29 +187,39 @@ WSGI_APPLICATION = 'Growbinar_Backend.wsgi.application'
 
 # Database
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME':'GrowbinarDB',
-#         'USER':'Django',
-#         'PASSWORD':'django',
-#  }
-# }
-
+# main down
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'verceldb',
         'USER': 'default',
-        'PASSWORD': os.environ['db_password'],
-        'HOST': os.environ['db_host_id'],
-        'PORT': '5432', 
+        'PASSWORD': 'axhRmdTw6y8K',
+        'HOST': 'ep-gentle-lab-a4so1tpa-pooler.us-east-1.aws.neon.tech',
+        'PORT': '5432',
         'OPTIONS': {
             'sslmode': 'require',
             'connect_timeout': 15,
         }
     }
 }
+
+# test down
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'verceldb',
+#         'USER': 'default',
+#         'PASSWORD': os.environ['db_password'],
+#         'HOST': os.environ['db_host_id'],
+#         'PORT': '5432', 
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#             'connect_timeout': 15,
+#         }
+#     }
+# }
+
+
 
 
 # Email Settings
