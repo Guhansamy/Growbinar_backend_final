@@ -1,0 +1,6 @@
+DEBUG 2024-06-30 23:30:51,289 Sessions assets.py 10 new_sessions_booking message - No already session available 
+DEBUG 2024-06-30 23:30:51,947 Sessions assets.py 10 new_sessions_booking message - New session created
+DEBUG 2024-06-30 23:30:52,899 Sessions assets.py 10 new_sessions_booking message - Requestedsession created successfully
+DEBUG 2024-06-30 23:31:08,104 Sessions assets.py 10 new_sessions_booking message - No already session available 
+DEBUG 2024-06-30 23:31:08,774 Sessions assets.py 10 new_sessions_booking message - New session created
+DEBUG 2024-06-30 23:31:09,779 Sessions assets.py 10 new_sessions_booking message - Requestedsession created successfully
