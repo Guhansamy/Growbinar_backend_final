@@ -4,7 +4,7 @@ import logging
 import os
 import inspect
 from django.template.loader import render_to_string,get_template
-from static.message_constants import DEBUG_CODE,WARNING_CODE,ERROR_CODE
+from core.message_constants import DEBUG_CODE,WARNING_CODE,ERROR_CODE
 
 def urlShortner(url):
     short_url = pyshorteners.Shortener().tinyurl.short(url) # using tinyURL service to shorten the url from the pyShortner
