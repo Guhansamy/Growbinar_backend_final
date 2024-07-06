@@ -1,2 +1,6 @@
 /env
-# /Growbinar_Backend/logs
+/Authentication/__pycache__
+/core/__pycache__
+/Growbinar_Backend/__pycache__
+/profile_details/__pycache__
+/Sessions/__pycache__
