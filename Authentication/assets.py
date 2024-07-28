@@ -11,19 +11,16 @@ def urlShortner(url):
     return short_url
 
 def sendVerificationMail(url, email_id):
-    print(url)
     template = get_template('template/index.html').render({'BASE_URL':os.getenv('BACKEND_URL'),'verifyMail':url})
     send_mail(
         subject="Verify your mail by clicking the below link",  # subject in the sending mail
-        from_email="admin@growbinar.com",                       # sender mail
+        from_email="growbinar@gmail.com",                       # sender mail
         html_message= template,                                 # html template
-        message='https://growbinar-backend-4.onrender.com/'+url,# message in the mail
+        message='https://api.growbinar.com/'+url,# message in the mail
         recipient_list=[email_id,]                              # recipient mail id
     )
-    print("mail sent")
 
 def sessionBookedMail(email_id,role,userDetails):
-    print(userDetails)
     if role=='mentor':
         userDetails['before'] = "You're going to meet "
         userDetails['end'] = '.'
@@ -34,12 +31,11 @@ def sessionBookedMail(email_id,role,userDetails):
         template = get_template('template/sessionBooking.html').render(userDetails)
     send_mail(
         subject="Your session has been sucessfully booked",  # subject in the sending mail
-        from_email="admin@growbinar.com",                       # sender mail
+        from_email="growbinar@gmail.com",                       # sender mail
         html_message= template,                                 # html template
         message="Seesion booking confirmed",# message in the mail
         recipient_list=[email_id,]                              # recipient mail id
     )
-    print("mail sent")
 
 def log(message,code):
     logger = logging.getLogger("Authentication")

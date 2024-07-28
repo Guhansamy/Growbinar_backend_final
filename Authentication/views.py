@@ -18,31 +18,25 @@ from core.message_constants import DEBUG_CODE,WARNING_CODE,ERROR_CODE
 
 @api_view(['POST'])
 def user_login(request):
-    print("Request has Entered into User Login Page")
     log("Entered User-Login ",DEBUG_CODE)
 
     try:
-        print(request.data)
         email = request.data.get('email_id')
         password = request.data.get('password')
         user_role = request.data.get('user_role')  # 'mentor' or 'mentee'
         user = None
         if user_role == 'mentor':
                  # Request entered where the user exist
-            print('mentor')
-            print(email)
             user = Mentor.objects.filter(email_id=email).first()
             log("User is Mentor",DEBUG_CODE)
 
         elif user_role == 'mentee':
-            print('mentee')
             user = Mentee.objects.filter(email_id=email).first()
             log("User is Mentee",DEBUG_CODE)
             
         else:
             log("Invalid user_role",ERROR_CODE)
             return JsonResponse({'message' : INVALID_ROLE},status = STATUSES['BAD_REQUEST'])
-        print(user,'-----')
 
         if not user:
                     # Request entered were user not exist
@@ -76,12 +70,12 @@ def user_login(request):
                 #     'role' : user_role
                 # }
             }, status= STATUSES['SUCCESS'])
-        
+
         else:
             log("Invalid Credentials",ERROR_CODE)
             
             return JsonResponse({'message' : INVALID_CREDENTIALS}, status = STATUSES['BAD_REQUEST'])
-            
+
     except Exception as error:
         print(error)
         log('Error while Login  ' + str(error),ERROR_CODE)
@@ -101,7 +95,6 @@ def home_page_count(request):
         if(userChecking is not None):
             return userChecking
     except Exception as error:
-        print(error)
         return Response({'message':'Error authorizing the user try logging in again'})
 
     try:
@@ -110,7 +103,6 @@ def home_page_count(request):
 
             mentor_id = userDetails['id']
             mentor_details = Mentor.objects.raw(f"SELECT id,first_name,last_name,designation,company,profile_picture_url FROM core_mentor WHERE id={mentor_id};")[0]
-            print(mentor_details)
 
             # if mentor_details.exists() :
             if mentor_details :
@@ -119,7 +111,6 @@ def home_page_count(request):
                 # session_details =  Session.objects.filter(mentor = mentor_details.id) # getting the session details with that mentor
                 session_details = Session.objects.raw(f"SELECT id,from_slot_time,slot_date FROM core_session WHERE mentor_id={mentor_id};")
                 
-                print('entered the loop --',session_details)
                 sessions = []  # list to store the upcoming sessions
                 upcommingCount = 0
                 pendingCount = 0
@@ -127,7 +118,6 @@ def home_page_count(request):
                     value = dict()
 
                     requested_details = RequestedSession.objects.filter(session = index.id)[0]
-                    print('before if',requested_details.is_accepted)
                     if requested_details.is_accepted :
                         log('meeting is accepted',DEBUG_CODE)
                         booked_details = BookedSession.objects.filter(requested_session = requested_details)
@@ -145,7 +135,6 @@ def home_page_count(request):
         else:
             mentee_id = userDetails['id']
             mentee_details = Mentee.objects.get(id = mentee_id)
-            print(mentee_details)
 
             # if mentor_details.exists() :
             if mentee_details :
@@ -190,7 +179,6 @@ def MenteeSignup(request):
             return Response({"message":EMAIL_EXISTS},status=STATUSES['BAD_REQUEST'])
 
         serializer = UserSerializer(data=request.data)
-        print(request.data)
         # validating the payload
         valid=serializer.is_valid()
         if valid:
@@ -205,11 +193,9 @@ def MenteeSignup(request):
         else:
             # sending bad request response for invalid payload
             log("invalid credentails for signup "+str(serializer.errors),WARNING_CODE)
-            print(serializer.errors)
             return Response({"message":INVALID_CREDENTIALS},status=STATUSES['BAD_REQUEST'])
     except Exception as e:
         log("Error creating a mentee"+str(e),ERROR_CODE)
-        print('error',e)
         return Response({'message':SIGNUP_ERROR,'error':str(e)}, status=STATUSES['INTERNAL_SERVER_ERROR'])
 
 @api_view(['POST'])
@@ -222,7 +208,6 @@ def MentorSignup(request):
             return Response({"message":EMAIL_EXISTS},status=STATUSES['BAD_REQUEST'])
 
         serializer = UserSerializer(data=request.data)
-        print(request.data)
         # validating the payload
         valid=serializer.is_valid()
         if valid:
@@ -237,11 +222,9 @@ def MentorSignup(request):
         else:
             # sending bad request response
             log("invalid credentails for signup",WARNING_CODE)
-            print(serializer.errors)
             return Response({"message":INVALID_CREDENTIALS},status=STATUSES['BAD_REQUEST'])
     except Exception as error:
         log("Error creating a mentor"+str(error),ERROR_CODE)
-        print(error)
         return Response({'message':SIGNUP_ERROR,'error':str(error)}, status=STATUSES['INTERNAL_SERVER_ERROR'])
 
 
@@ -251,15 +234,13 @@ def VerifyMentee(request):
     try:
         # Getting mentee id from the url and setting is_email_verified to True
         menteeID = decryptData(request.GET.get('id'))
-        print(menteeID)
         mentee = Mentee.objects.get(id=menteeID)
         mentee.is_email_verified = True
         mentee.save()
         log('Email verification sucess for '+menteeID,DEBUG_CODE)
-        return redirect('https://growbinar.com/mentee')
+        return redirect('https://growbinar.com/menteeStepper')
     except Exception as error:
         log("Error verifying email "+str(error),ERROR_CODE)
-        print(error)
         return Response({'message':ERROR_VERIFYING_USER_EMAIL,'error':str(error)},status=STATUSES['INTERNAL_SERVER_ERROR'])
 
 @api_view(['GET'])
@@ -272,11 +253,10 @@ def VerifyMentor(request):
         mentor.is_email_verified = True
         mentor.save()
         log('Email verification sucess for '+mentorID,DEBUG_CODE)
-        return redirect('https://growbinar.com/mentor')
+        return redirect('https://growbinar.com/mentorStepper')
         return Response({'message':VERIFIED_USER_EMAIL},status=STATUSES['SUCCESS'])
     except Exception as error:
         log("Error verifying email "+str(error),ERROR_CODE)
-        print(error)
         return Response({'message':ERROR_VERIFYING_USER_EMAIL,'error':str(error)},status=STATUSES['INTERNAL_SERVER_ERROR'])
 
 @api_view(['POST'])
@@ -292,19 +272,15 @@ def getMentorDetails(request):
             if userDetails['type']!='mentor':  # chekking weather he is allowed inside this endpoint or not
                 return Response({'message':ACCESS_DENIED},status=STATUSES['BAD_REQUEST'])
         except Exception as error:
-            print(error)
             return Response({'message':'Error authorizing the user try logging in again'})   
-        print(userDetails['id'])
         mentor = Mentor.objects.get(id=userDetails['id'])
         # mentor = Mentor.objects.get(id = decryptData(request.data['id']))
-        print(mentor)
         if not mentor.is_email_verified:
             log("Email not verified",WARNING_CODE)
             return Response({'message':EMAIL_NOT_VERIFIFED},status=STATUSES['BAD_REQUEST'])
         request.data['password'] = mentor.password
         serializer = MentorSerializer(data=request.data)
         valid = serializer.is_valid()
-        print(mentor)
         if valid:
             mentor.first_name=request.data['first_name']
             mentor.last_name=request.data['last_name']
@@ -330,14 +306,12 @@ def getMentorDetails(request):
             return Response({'message':INVALID_CREDENTIALS},status=STATUSES['BAD_REQUEST'])
     except Exception as error:
         log("Error saving mentor details - "+str(error),ERROR_CODE)
-        print('final',error)
         return Response({'message':ERROR_SAVING_USER_DETAILS,'error':str(error)},status=STATUSES['INTERNAL_SERVER_ERROR'])
 
 @api_view(['POST'])
 def getMenteeDetails(request):
     log('Entered mentor details endpoint',DEBUG_CODE)
     try:
-        print('here ')
         validation_response = validate_token(request)  # validating the requested user using authorization headder
         if validation_response is not None:
             return validation_response
@@ -346,9 +320,7 @@ def getMenteeDetails(request):
             if userDetails['type']!='mentee':      # chekking weather he is allowed inside this endpoint or not
                 return Response({'message':ACCESS_DENIED},status=STATUSES['BAD_REQUEST'])
         except Exception as error:
-            print(error)
             return Response({'message':'Error authorizing the user try logging in again'})
-        print(userDetails['id'])
         mentee = Mentee.objects.get(id=userDetails['id'])
         # mentee = Mentee.objects.get(id = decryptData(request.data['id']))
         if not mentee.is_email_verified:
@@ -356,7 +328,6 @@ def getMenteeDetails(request):
             return Response({'message':EMAIL_NOT_VERIFIFED},status=STATUSES['BAD_REQUEST'])
         serializer = MenteeSerializer(data=request.data)
         valid = serializer.is_valid()
-        print(request.data['organization'])
         if(valid):
             mentee.first_name=request.data['first_name']
             mentee.last_name=request.data['last_name']
@@ -381,7 +352,6 @@ def getMenteeDetails(request):
             return Response({'message':INVALID_CREDENTIALS},status=STATUSES['BAD_REQUEST'])
     except Exception as error:
         log("Error saving mentor details - "+str(error),ERROR_CODE)
-        print(error)
         return Response({'message':ERROR_SAVING_USER_DETAILS,'error':str(error)},status=STATUSES['INTERNAL_SERVER_ERROR'])
 
 @api_view(['GET'])
@@ -394,7 +364,6 @@ def user_logout(request):
             else:
                 access_token = authorization_header
 
-            print("The access token that we need", access_token)
 
             # Delete the token from the database
             auth_token = AuthToken.objects.filter(jwt_token=access_token).first()
@@ -426,7 +395,6 @@ def checkUserDetails(request):
                 return userChecking
             return Response({'message':'Perfect go ahead','role':userDetails['type']},status=STATUSES['SUCCESS'])
         except Exception as error:
-            print(error)
             return Response({'message':'Error authorizing the user try logging in again'})
     except Exception as error:
         return Response({'message':'Error checking the user status.','error':str(error)},status=STATUSES['INTERNAL_SERVER_ERROR'])
@@ -443,9 +411,7 @@ def resendMail(request):
         try:
             userDetails = getUserDetails(request)  # getting the details of the requested user
         except Exception as error:
-            print(error)
             return Response({'message':'Error authorizing the user try logging in again'})
-        print(userDetails['id'])
         if userDetails['type']=='mentee':
             email = Mentee.objects.get(id = userDetails['id']).email_id
             sendVerificationMail(VERIFY_MENTEE_ROUTE+"?id="+encryptData(userDetails['id']),email)  # sending the verification mail
@@ -454,7 +420,6 @@ def resendMail(request):
             sendVerificationMail(VERIFY_MENTOR_ROUTE+"?id="+encryptData(userDetails['id']),email)  # sending the verification mail
         return Response({'message':'Mail sent successfully'},status=STATUSES['SUCCESS'])
     except Exception as error:
-        print(error)
         return Response({'message':'Error sending mail','error':str(error)},status=STATUSES['INTERNAL_SERVER_ERROR'])
 
 # def verifyMailSampleTemplate(request):

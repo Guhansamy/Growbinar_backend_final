@@ -97,7 +97,9 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
     'http://localhost:3000',
-    'http://192.168.137.104:3000'
+    'http://192.168.137.104:3000',
+    'https://growbinar.com',
+    'https://www.growbinar.com'
 ]
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'credentials',
@@ -206,8 +208,8 @@ WSGI_APPLICATION = 'Growbinar_Backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'verceldb',
-        'USER': 'default',
+        'NAME': 'growbinar_db',
+        'USER': 'postgres',
         'PASSWORD': os.environ['db_password'],
         'HOST': os.environ['db_host_id'],
         'PORT': '5432', 
