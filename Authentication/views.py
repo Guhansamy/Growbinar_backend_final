@@ -163,6 +163,7 @@ def home_page_count(request):
                         pendingCount+=1
 
                 return Response({'message':'Details sent successfully','upcommingCount':upcommingCount,'pendingCount':pendingCount},status=STATUSES['SUCCESS'])
+            
         return Response({'message':'user does not exists'},status = STATUSES['BAD_REQUEST'])
     except Exception as e:
         log('Error '+str(e),ERROR_CODE)
@@ -254,7 +255,7 @@ def VerifyMentor(request):
         mentor.save()
         log('Email verification sucess for '+mentorID,DEBUG_CODE)
         return redirect('https://growbinar.com/mentorStepper')
-        return Response({'message':VERIFIED_USER_EMAIL},status=STATUSES['SUCCESS'])
+       
     except Exception as error:
         log("Error verifying email "+str(error),ERROR_CODE)
         return Response({'message':ERROR_VERIFYING_USER_EMAIL,'error':str(error)},status=STATUSES['INTERNAL_SERVER_ERROR'])
@@ -421,62 +422,3 @@ def resendMail(request):
         return Response({'message':'Mail sent successfully'},status=STATUSES['SUCCESS'])
     except Exception as error:
         return Response({'message':'Error sending mail','error':str(error)},status=STATUSES['INTERNAL_SERVER_ERROR'])
-
-# def verifyMailSampleTemplate(request):
-#     return render(request, 'template/index.html',{'BASE_URL':'http://localhost:8000/'})
-
-
-# log("Invalid user_role",ERROR_CODE)
-#             return JsonResponse({'message' : INVALID_ROLE},status = STATUSES['BAD_REQUEST'])
-            
-
-# Login:
-# error for email no token
-# no error for stepper - 200
-
-# common
-# no token _> login
-# no stepper -> 400
-
-       
-
-#         print(user)
-
-#         if not user:
-#                     # Request entered were user not exist
-#             if user_role == 'mentor':
-#                 log("User Not Found",WARNING_CODE)
-#                 return JsonResponse({'message' : USER_NOT_FOUND }, status = STATUSES['BAD_REQUEST'])
-            
-#             else :
-#                 log("User Not Found",WARNING_CODE)
-#                 return JsonResponse({'message' :USER_NOT_FOUND},status = STATUSES['BAD_REQUEST'])
-            
-#         if check_password(password, user.password):
-#         # if (password == user.password):
-#             token = AccessToken.for_user(user)
-#             log("User Logged In",DEBUG_CODE)
-#             return JsonResponse({
-#                 'message': LOGIN_SUCCESS,  # Using 'message' key
-#                 'token': str(token),
-#                 'data' : {
-#                     'name' : user.first_name + user.last_name,
-#                     'email' : email,
-#                     'role' : user_role
-#                 }
-#             }, status= STATUSES['SUCCESS'])
-        
-#         else:
-#             log("Invalid Credentials",ERROR_CODE)
-#             return JsonResponse({'message' : INVALID_CREDENTIALS}, status = STATUSES['BAD_REQUEST'])
-            
-#     except Exception as ex:
-#         print(ex)
-#         log('Error while Login  ' + str(ex),ERROR_CODE)
-#         return JsonResponse({'message' : LOGIN_ERROR}, status = STATUSES['INTERNAL_SERVER_ERROR'])
-
-
-
-    # cur = connection.cursor()
-    # cur.execute("INSERT INTO core_mentor (email_id,password) values(\'dharun.ap2022cse@sece.ac.in\',\'ehllo\');")
-    # Mentor.objects.raw("INSERT INTO core_mentors (email,password) values(dharun.ap2022cse@sece.ac.in,ehllo);")

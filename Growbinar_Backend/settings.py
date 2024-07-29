@@ -208,17 +208,19 @@ WSGI_APPLICATION = 'Growbinar_Backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'growbinar_db',
-        'USER': 'postgres',
+        'NAME': 'verceldb',
+        'USER': 'default',
         'PASSWORD': os.environ['db_password'],
         'HOST': os.environ['db_host_id'],
-        'PORT': '5432', 
+        'PORT': '5432',
         'OPTIONS': {
-            'sslmode': 'require',
+            'sslmode': 'prefer',  # Prefer SSL if available
             'connect_timeout': 15,
         }
     }
 }
+
+
 
 
 
